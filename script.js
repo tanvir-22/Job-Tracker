@@ -139,7 +139,13 @@ main.addEventListener('click',function(event){
 
         }
 
-        
+        if(event.target.classList.contains('dltbtn')){
+            let parent = event.target.parentNode.parentNode;
+           const company =  parent.querySelector('.company').innerText;
+           console.log('delete clicked');
+           del(company,currentStatus)
+           count_interviews()
+        }
 
 })
 
@@ -159,7 +165,7 @@ function renderReject(){
                     <p class="text-[#64748B] text-lg pb-5 jobTitle">${item.jobTitle}</p>
                    </div>
                    <div class="cursor-pointer text-[#64748B] w-7 h-7 rounded-full border border-gray-300 text-center">
-                     <i class="fa-regular fa-trash-can"></i>
+                     <i class="dltbtn fa-regular fa-trash-can"></i>
                    </div>
                 </div>
                 <div>
@@ -195,7 +201,7 @@ function renderInterview(){
                     <p class="text-[#64748B] text-lg pb-5 jobTitle">${item.jobTitle}</p>
                    </div>
                    <div class="cursor-pointer text-[#64748B] w-7 h-7 rounded-full border border-gray-300 text-center">
-                     <i class="fa-regular fa-trash-can"></i>
+                     <i class="dltbtn fa-regular fa-trash-can"></i>
                    </div>
                 </div>
                 <div>
@@ -228,7 +234,21 @@ function updateAllCardStatus(status,company){
     })
 }
 
-// function delete(){
-
-// }
+function del(company,status){
+    const allCards = document.querySelectorAll('.allcards .card');
+    console.log(allCards);
+    allCards.forEach(item=>{
+        const companyName = item.querySelector('.company').innerText;
+        if(company==companyName){
+            item.remove();
+        }
+    })  
+    if(status== 'interview-filter-btn'){
+          interview_arr = interview_arr.filter(item=>item.company!=company);
+          renderInterview();
+    }else if(status=='Rejected-filter-btn'){
+        rejected_arr = rejected_arr.filter(item=>item.company!=company);
+        renderReject()
+    }
+}
 
