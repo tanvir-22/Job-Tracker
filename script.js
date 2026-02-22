@@ -15,9 +15,6 @@ const selected_card_section = document.getElementsByClassName('selected-cards')[
 
 const noJob = document.getElementsByClassName('no-job')[0];
 
-
-
-
 function toggle(id) {
     all_filter_btn.classList.remove('bg-[#3B82F6]', 'text-white');
     interview_filter_btn.classList.remove('bg-[#3B82F6]', 'text-white');
@@ -53,12 +50,12 @@ function toggle(id) {
             allCards[0].classList.add('hidden');
             selected_card_section.classList.add('hidden');
             noJob.classList.remove('hidden');
-            console.log('rejected length if:', rejected_arr.length);
+
         } else {
             allCards[0].classList.add('hidden');
             selected_card_section.classList.remove('hidden');
             noJob.classList.add('hidden');
-            console.log('rejected length else:', rejected_arr.length);
+
 
             renderReject()
         }
@@ -103,7 +100,7 @@ main.addEventListener('click', function (event) {
         }
 
         rejected_arr = rejected_arr.filter(item => item.company != companyObj.company);
-        console.log(rejected_arr.length);
+
 
         if (currentStatus == 'Rejected-filter-btn') {
             renderReject()
@@ -142,15 +139,14 @@ main.addEventListener('click', function (event) {
             renderInterview();
         }
         count_interviews()
-        console.log("rejected clicked");
-        console.log('rejected length eventlistener', rejected_arr.length);
+
 
     }
 
     if (event.target.classList.contains('dltbtn')) {
         let parent = event.target.parentNode.parentNode;
         const company = parent.querySelector('.company').innerText;
-        console.log('delete clicked');
+
         del(company, currentStatus)
         count_interviews()
     }
@@ -235,7 +231,7 @@ function updateAllCardStatus(status, company) {
     const allCards = document.querySelectorAll('.allcards .card');
     allCards.forEach(item => {
         const companyName = item.querySelector('.company').innerText;
-        console.log(companyName);
+
         if (companyName == company) {
             item.querySelector('.status').innerText = status;
         }
@@ -244,13 +240,16 @@ function updateAllCardStatus(status, company) {
 
 function del(company, status) {
     const allCards = document.querySelectorAll('.allcards .card');
-    console.log(allCards);
+
     allCards.forEach(item => {
         const companyName = item.querySelector('.company').innerText;
         if (company == companyName) {
             item.remove();
         }
     })
+    if(allCards.length==1){
+        noJob.classList.remove('hidden')
+    }
     if (status == 'interview-filter-btn') {
         interview_arr = interview_arr.filter(item => item.company != company);
         renderInterview();
